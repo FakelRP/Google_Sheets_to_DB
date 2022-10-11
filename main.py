@@ -8,7 +8,7 @@ from schedule import every, repeat, run_pending
 import time
 
 
-def get_usd_rate():
+def get_usd_rate():  # Получение курса доллара с сайта ЦБ РФ
     url = 'https://www.cbr.ru/'
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'lxml')
@@ -18,7 +18,7 @@ def get_usd_rate():
     return usd_float
 
 
-def google_sheet_to_df(spreadsheet_name, sheet_num):
+def google_sheet_to_df(spreadsheet_name, sheet_num):  # Получение данных из гугл таблицы и преобразование их в DataFrame
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
     credentials_path = 'credentials.json'
     credentials = sac.from_json_keyfile_name(credentials_path, scope)
@@ -28,13 +28,13 @@ def google_sheet_to_df(spreadsheet_name, sheet_num):
     return df
 
 
-@repeat(every(30).seconds)
-def df_to_db():
-    engine = create_engine("postgresql+psycopg2://postgres:Petre535@127.0.0.1:5433/kanalservice")
+@repeat(every(5).seconds)
+def df_to_db():  # Добавление в DataFrame столбца 'стоимость в руб' и запись данных в БД
+    engine = create_engine("postgresql://postgres:Petre535@127.0.0.1:5433/kanalservice")
     df = google_sheet_to_df('kanal_test', 0)
-    usd_rate = get_usd_rate()
-    price_rub = []
-    for i in range(len(df)):
+    usd_rate = get_usd_rate()  # Вызов функции для получения текущего курса
+    price_rub = []  # Список для добавления данных из него в DataFrame
+    for i in range(len(df)):  # Добавление в список
         df_price_usd = df.iloc[i]['стоимость_$']
         price_in_usd = "{:.2f}".format(df_price_usd * usd_rate)
         price_rub.append(price_in_usd)
