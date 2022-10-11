@@ -28,7 +28,7 @@ def google_sheet_to_df(spreadsheet_name, sheet_num):  # Получение да�
     return df
 
 
-@repeat(every(5).seconds)
+@repeat(every(15).seconds)
 def df_to_db():  # Добавление в DataFrame столбца 'стоимость в руб' и запись данных в БД
     engine = create_engine("postgresql://postgres:Petre535@127.0.0.1:5433/kanalservice")
     df = google_sheet_to_df('kanal_test', 0)
