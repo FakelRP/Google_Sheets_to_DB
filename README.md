@@ -1,4 +1,4 @@
-Google Sheets document - https://docs.google.com/spreadsheets/d/1ZxzdUub2mT-Ch-bJ-c0XqdxeWwzk8_3eQZEtZhT2Te0/edit#gid=0
+Google Sheets document - https://docs.google.com/spreadsheets/d/1ZxzdUub2mT-Ch-bJ-c0XqdxeWwzk8_3eQZEtZhT2Te0/edit?usp=sharing
 
 Инструкция по запуску:
 1. Создать новый проект в IDE c venv
